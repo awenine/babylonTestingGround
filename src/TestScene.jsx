@@ -1,5 +1,5 @@
 import React from "react";
-import { Vector3, HemisphericLight, ArcRotateCamera, SceneLoader, MeshBuilder, StandardMaterial, Color3 } from "@babylonjs/core";
+import { Vector3, HemisphericLight, ArcRotateCamera, SceneLoader, MeshBuilder, StandardMaterial, Color3, Texture } from "@babylonjs/core";
 import SceneComponent from 'babylonjs-hook';
 import "./App.css";
 
@@ -8,19 +8,20 @@ let box;
 let suzanne;
 let arch;
 let floor;
+let poster;
 
 const onSceneReady = (scene) => {
   // This creates and positions a free camera (non-mesh)
-  var camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 3, new Vector3(6, 1, 2), scene);
+  var camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 3, new Vector3(7, 7, 0), scene);
   // This targets the camera to scene origin
-  camera.setTarget(Vector3.Zero());
+  camera.setTarget(new Vector3(0,1,0));
   const canvas = scene.getEngine().getRenderingCanvas();
   // This attaches the camera to the canvas
   camera.attachControl(canvas, true);
 
   // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
   // eslint-disable-next-line no-unused-vars
-    var light = new HemisphericLight("light", new Vector3(5, 1, 0), scene);
+  var light = new HemisphericLight("light", new Vector3(5, 1, 3), scene);
   
   // create new materials for the 3 objects:
   //? rgb values between 0-1, selected in css file colorPicker and then used following function to convert in console:
@@ -33,24 +34,28 @@ const onSceneReady = (scene) => {
   boxMat.diffuseColor = new Color3(0.34375,0.015625,0.14453125);
   const suzanneMat = new StandardMaterial("suzanneMat", scene);
   suzanneMat.diffuseColor = new Color3(0.5859375,0.5,0.11328125);
+  const posterMat = new StandardMaterial("posterMat");
+  posterMat.diffuseTexture = new Texture("./assets/lammy.png", scene);
 
 
   // Default intensity is 1. Let's dim the light a small amount
-  light.intensity = 1;
+  light.intensity = 1.3;
 
   // Our built-in 'box' shape.
-  box = MeshBuilder.CreateBox("box", { size: 1 }, scene);
-  box.material = boxMat; 
+  box = MeshBuilder.CreateBox("box", { size: 2 }, scene);
+  box.material = posterMat;
 
   // eslint-disable-next-line no-unused-vars
-  SceneLoader.ImportMeshAsync("", "./assets/", "third_test.babylon", scene).then((result) => {
+  SceneLoader.ImportMeshAsync("", "./assets/", "fourth_test.babylon", scene).then((result) => {
     suzanne = scene.getMeshByName("suzanne")
     suzanne.material = suzanneMat
+    suzanne.position.x = 4
     arch = scene.getMeshByName("arch")
-    arch.scaling.y = 2;
     arch.material = archMat
     floor = scene.getMeshByName("floor")
     floor.material = floorMat
+    poster = scene.getMeshByName("poster")
+    poster.material = boxMat;
   })
   // Move the box upward 1/2 its height
   box.position.y = 1;
@@ -66,8 +71,8 @@ const onRender = (scene) => {
   if (box !== undefined) {
     var deltaTimeInMillis = scene.getEngine().getDeltaTime();
     const rpm = 10;
-    box.rotation.y += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 700);
-    box.rotation.x += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 300);
+    box.rotation.y += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 1500);
+    box.rotation.x += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 3000);
     box.rotation.z += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 2000);
   }
   if (suzanne !== undefined) {
