@@ -1,5 +1,5 @@
 import React from "react";
-import { FreeCamera, Vector3, HemisphericLight, MeshBuilder, ArcRotateCamera, SceneLoader, } from "@babylonjs/core";
+import { Vector3, HemisphericLight, ArcRotateCamera, SceneLoader, } from "@babylonjs/core";
 import SceneComponent from 'babylonjs-hook';
 import "./App.css";
 
@@ -14,6 +14,7 @@ const onSceneReady = (scene) => {
   // This attaches the camera to the canvas
   camera.attachControl(canvas, true);
   // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+  // eslint-disable-next-line no-unused-vars
   var light = new HemisphericLight("light", new Vector3(0, 1, 0), scene);
   
 //   scene.createDefaultEnvironment({
@@ -25,6 +26,7 @@ const onSceneReady = (scene) => {
   // light.intensity = 0.7;
   // Our built-in 'box' shape.
   // const box = MeshBuilder.CreateBox("box", { size: 1 }, scene);
+  // eslint-disable-next-line no-unused-vars
   const testModel = SceneLoader.ImportMesh("", "./assets/", "third_test.babylon", scene, function (newMeshes) {});
   // Move the box upward 1/2 its height
   // box.position.y = 1;

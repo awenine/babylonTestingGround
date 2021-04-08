@@ -1,7 +1,7 @@
-import logo from './logo.svg';
+
 import './App.css';
 import TestScene from './TestScene';
-import { findByLabelText } from '@testing-library/dom';
+// import { findByLabelText } from '@testing-library/dom';
 
 function App() {
   const sceneStyles = {
