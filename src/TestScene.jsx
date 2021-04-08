@@ -71,7 +71,6 @@ const onRender = (scene) => {
     box.rotation.z += (rpm / 60) * Math.PI * 2 * (deltaTimeInMillis / 2000);
   }
   if (suzanne !== undefined) {
-    var deltaTimeInMillis = scene.getEngine().getDeltaTime();
     const rpm = 10;
     suzanne.rotation.y += (rpm / 60) * Math.PI * -2 * (deltaTimeInMillis / 2000);
     // suzanne.position.x += 0.01  //? moves suzanne slowly across the floor... 
