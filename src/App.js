@@ -1,23 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
+import TestScene from './TestScene';
+import { findByLabelText } from '@testing-library/dom';
 
 function App() {
+  const sceneStyles = {
+    width: '100%',
+  }
+  const containerStyles = {
+    width: '90%',
+    display: 'flex'
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      App rendering
+      <div style={containerStyles}>
+        <div  style={sceneStyles}>
+          <TestScene/>
+        </div>
+      </div>
     </div>
   );
 }
