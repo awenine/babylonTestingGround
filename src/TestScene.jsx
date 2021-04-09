@@ -1,5 +1,5 @@
 import React from "react";
-import { Vector3, HemisphericLight, ArcRotateCamera, SceneLoader, MeshBuilder, StandardMaterial, Color3, Texture } from "@babylonjs/core";
+import { Vector3, HemisphericLight, ArcRotateCamera, SceneLoader, MeshBuilder, StandardMaterial, Color3, Texture, InterpolateValueAction, ActionManager, ExecuteCodeAction } from "@babylonjs/core";
 import SceneComponent from 'babylonjs-hook';
 import "./App.css";
 
@@ -9,6 +9,18 @@ let suzanne;
 let arch;
 let floor;
 let poster;
+
+//? create scale up on mouseOver functions
+function fadeOnHover(mesh) {
+  mesh.actionManager.registerAction(new InterpolateValueAction(ActionManager.OnPointerOverTrigger, mesh, 'scaling', new Vector3(1.2,1.2,1.2), 100))
+  mesh.actionManager.registerAction(new InterpolateValueAction(ActionManager.OnPointerOutTrigger, mesh, 'scaling', new Vector3(1,1,1), 300))
+}
+
+//? click event that logs to console
+function logOnClick(mesh) {
+  mesh.actionManager.registerAction(new ExecuteCodeAction(ActionManager.OnPickTrigger, () => console.log(`${mesh} clicked`)))
+}
+
 
 const onSceneReady = (scene) => {
   // This creates and positions a free camera (non-mesh)
@@ -44,23 +56,37 @@ const onSceneReady = (scene) => {
   // Our built-in 'box' shape.
   box = MeshBuilder.CreateBox("box", { size: 2 }, scene);
   box.material = posterMat;
+  //? must be added for hover/click events to work
+  box.actionManager = new ActionManager(scene)
 
   // eslint-disable-next-line no-unused-vars
   SceneLoader.ImportMeshAsync("", "./assets/", "fourth_test.babylon", scene).then((result) => {
     suzanne = scene.getMeshByName("suzanne")
     suzanne.material = suzanneMat
     suzanne.position.x = 4
+    suzanne.actionManager = new ActionManager(scene)
     arch = scene.getMeshByName("arch")
     arch.material = archMat
+    arch.actionManager = new ActionManager(scene)
     floor = scene.getMeshByName("floor")
     floor.material = floorMat
+    floor.actionManager = new ActionManager(scene)
     poster = scene.getMeshByName("poster")
     poster.material = boxMat;
+    poster.actionManager = new ActionManager(scene)
+    fadeOnHover(arch, scene);
+    logOnClick(arch, scene)
+    logOnClick(suzanne, scene)
+    logOnClick(floor, scene)
+    console.log(suzanne)
   })
   // Move the box upward 1/2 its height
   box.position.y = 1;
   // Our built-in 'ground' shape.
   // MeshBuilder.CreateGround("ground", { width: 10, height: 6 }, scene);
+  // box.actionManager = new ActionManager(scene)
+  // suzanne.actionManager = new ActionManager(scene)
+  fadeOnHover(box, scene);
 };
 
 
