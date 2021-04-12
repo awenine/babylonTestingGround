@@ -1,5 +1,5 @@
 import React from "react";
-import { Vector3, HemisphericLight, ArcRotateCamera, SceneLoader, MeshBuilder, StandardMaterial, Color3, Texture, InterpolateValueAction, ActionManager, ExecuteCodeAction } from "@babylonjs/core";
+import { Vector3, HemisphericLight, ArcRotateCamera, SceneLoader, MeshBuilder, StandardMaterial, Color3, Texture, InterpolateValueAction, ActionManager, ExecuteCodeAction, Color4 } from "@babylonjs/core";
 import SceneComponent from 'babylonjs-hook';
 import "./App.css";
 
@@ -36,6 +36,10 @@ const TestScene = ({ testProp, testClick }) => {
   
   
   const onSceneReady = (scene) => {
+
+    //? sets the background (sky) to transparent
+    scene.clearColor = new Color4(0, 0, 0, 0);
+
     // This creates and positions a free camera (non-mesh)
     var camera = new ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 3, new Vector3(7, 7, 0), scene);
     // This targets the camera to scene origin
@@ -52,7 +56,7 @@ const TestScene = ({ testProp, testClick }) => {
     //? rgb values between 0-1, selected in css file colorPicker and then used following function to convert in console:
     // function colorConvert(r ,g ,b) {return `(${r/256},${g/256},${b/256})`}
     const archMat = new StandardMaterial("archMat", scene);
-    archMat.diffuseColor = new Color3(0.7109375,0.91015625,0.546875);
+    archMat.diffuseTexture = new Texture("./assets/archTexture.jpg", scene);
     const floorMat = new StandardMaterial("groundMat", scene);
     floorMat.diffuseColor = new Color3(0.38671875,0.515625,0.6640625);
     const boxMat = new StandardMaterial("boxMat", scene);
@@ -73,7 +77,7 @@ const TestScene = ({ testProp, testClick }) => {
     box.actionManager = new ActionManager(scene)
   
     // eslint-disable-next-line no-unused-vars
-    SceneLoader.ImportMeshAsync("", "./assets/", "fourth_test.babylon", scene).then((result) => {
+    SceneLoader.ImportMeshAsync("", "./assets/", "fifth_test.babylon", scene).then((result) => {
       suzanne = scene.getMeshByName("suzanne")
       suzanne.material = suzanneMat
       suzanne.position.x = 4
@@ -131,7 +135,7 @@ const TestScene = ({ testProp, testClick }) => {
         onSceneReady={onSceneReady} 
         onRender={onRender} 
         id="my-canvas" 
-        style={{width: '80%'}} 
+        style={{width: '80%', outline: "none"}} // outline set to none to ge floating image style
       />
     </div>
   )
