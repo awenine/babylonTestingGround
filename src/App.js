@@ -1,6 +1,5 @@
-
 import './App.css';
-import TestScene from './TestScene';
+import Dashboard from './Dashboard';
 // import { findByLabelText } from '@testing-library/dom';
 
 function App() {
@@ -9,7 +8,7 @@ function App() {
     <div className="App">
       <h1>Babylon Canvas Test</h1>
         <div  className="sceneStyles">
-          <TestScene/>
+          <Dashboard />
         </div>
     </div>
   );
